@@ -1,6 +1,6 @@
 # ArgoCD Disaster Recovery
 
-This repository contains manifests for backup and restore of Cluster disaster with an emphasis on ArgoCD's Data using ACM and OADP, as well as a Kyverno policy and sample applications for simulation.
+This repository contains manifests for backup and restore in case of Cluster disaster with an emphasis on ArgoCD's Data using ACM and OADP, as well as a Kyverno policy and sample applications for simulation.
 
 ## Active-Cluster
 
