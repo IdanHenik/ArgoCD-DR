@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: mutate-argoproj
+spec:
+  background: true
+  mutateExistingOnPolicyUpdate: true
+  rules:
+    - match:
+        any:
+          - resources:
+              kinds:
+                - AppProject
+      mutate:
+        patchStrategicMerge:
+          spec:
+            syncWindows:
+              - clusters:
+                  - '*'
+                duration: 24h
+                kind: deny
+                namespaces:
+                  - '*'
+                schedule: '* * * * *'
+                timeZone: "Asia/Jerusalem"
+        targets:
+          - apiVersion: argoproj.io/v1alpha1
+            kind: AppProject
+            name: '{{ request.object.metadata.name }}'
+            namespace: openshift-gitops
+      name: mutate-argoproj
+  validationFailureAction: Audit
