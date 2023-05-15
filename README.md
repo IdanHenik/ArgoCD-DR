@@ -26,7 +26,7 @@ Applications for simulation
 
 ## HLD
 
-![HLD]([image URL](https://ibb.co/k1TGr6Q))
+![HLD](https://ibb.co/k1TGr6Q)
 
 
 Note: These manifests are provided for simulation purposes only and should be customized for your specific use case
