@@ -26,7 +26,7 @@ Applications for simulation
 
 ## HLD
 
-![HLD](./https://i.ibb.co/tX6HNP8/Cloudlet-DR-4.jpg)
+![HLD](https://i.ibb.co/tX6HNP8/Cloudlet-DR-4.jpg)
 
 
 
