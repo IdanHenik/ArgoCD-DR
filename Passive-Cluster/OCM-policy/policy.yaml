@@ -1,0 +1,70 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: policy-argo-windowsync-block
+  namespace: ""
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: SC System and Communications Protection
+    policy.open-cluster-management.io/controls: SC-7 Boundary Protection
+spec:
+  remediationAction: inform
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: argo-windowsync-block
+        spec:
+          remediationAction: enforce
+          severity: medium
+          namespaceSelector:
+            include:
+              - openshift-gitops
+          object-templates-raw: >
+            {{- range $appproj := (lookup "argoproj.io/v1alpha1" "AppProject" "openshift-gitops" "").items }}
+             - complianceType: musthave
+               objectDefinition:
+                 apiVersion: argoproj.io/v1alpha1
+                 kind: AppProject
+                 metadata:
+                   name: '{{ $appproj.metadata.name }}'
+                   namespace: openshift-gitops
+                 spec:
+                  syncWindows:
+                  - clusters:
+                      - '*'
+                    namespaces:
+                      - '*'
+                    duration: 24h
+                    kind: deny
+                    schedule: '* * * * *'
+                    timeZone: "Asia/Jerusalem"
+            {{- end }}
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: policy-argo-windowsync-block-placement
+  namespace: default
+placementRef:
+  name: policy-argo-windowsync-block-placement
+  kind: PlacementRule
+  apiGroup: apps.open-cluster-management.io
+subjects:
+  - name: policy-argo-windowsync-block
+    kind: Policy
+    apiGroup: policy.open-cluster-management.io
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: policy-argo-windowsync-block-placement
+  namespace: default
+spec:
+  clusterConditions:
+    - status: "True"
+      type: ManagedClusterConditionAvailable
+  clusterSelector:
+    matchExpressions: []
