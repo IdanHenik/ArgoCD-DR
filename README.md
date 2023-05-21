@@ -11,7 +11,7 @@ The following manifests are available for the Active Cluster:
 ### OCM-policy
 - `policy.yaml`: A policy using open-cluster-management which inform on ArgoCD un-labeled nessecry resources.
 
-## Active-Cluster
+## Passive-Cluster
 
 The following manifests are available for the Passive Cluster:
 ### OADP
