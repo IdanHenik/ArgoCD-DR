@@ -1,3 +1,3 @@
 application:
-  content: "<h1>1 Application</h1>"
+  content: "<h1>Welcome to the demo I'm App-1 v1.0</h1>"
 namespace: webserver-app-1
